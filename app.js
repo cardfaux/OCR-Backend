@@ -1,10 +1,12 @@
 const fs = require('fs');
 const path = require('path');
 const express = require('express');
+const mongoose = require('mongoose');
 
 const invoiceRoutes = require('./routes/invoice-routes');
 
 const app = express();
+const PORT = 5000 || process.env.PORT;
 
 app.use(express.json());
 app.use('/uploads/images', express.static(path.join('uploads', 'images')));
@@ -44,5 +46,19 @@ app.use((error, req, res, next) => {
 });
 // Error Handling Routes And MiddleWare
 
-const PORT = 5000 || process.env.PORT;
-app.listen(PORT, () => `I Am Running On Port ${PORT}`);
+// Connection To The DataBase And Starting The Server...
+mongoose
+	.connect(
+		`mongodb+srv://${process.env.DB_USER}:${process.env.DB_PASSWORD}@chatterbox-duf9f.mongodb.net/${process.env.DB_NAME}?retryWrites=true&w=majority`,
+		{ useNewUrlParser: true, useUnifiedTopology: true, useCreateIndex: true }
+	)
+	.then(() => {
+		app.listen(PORT, () => console.log(`API IS RUNNING ON PORT ${PORT}.....`));
+	})
+	.then(() => {
+		console.log('MongoDB Connected.....');
+	})
+	.catch((error) => {
+		console.log(error);
+	});
+// Connection To The DataBase And Starting The Server...
