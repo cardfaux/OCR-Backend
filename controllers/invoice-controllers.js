@@ -10,8 +10,6 @@ const worker = createWorker({
 //@ Route /api/invoice
 //@ Method POST
 const invoiceImage = (req, res, next) => {
-	console.log(req.file);
-
 	if (req.file) {
 		fs.readFile(`./uploads/images/${req.file.filename}`, (err, data) => {
 			if (err) return console.log('This Is Your Error', err);
@@ -24,10 +22,6 @@ const invoiceImage = (req, res, next) => {
 					const {
 						data: { text }
 					} = await worker.recognize(data);
-					// console.log(text);
-					// console.log(typeof text);
-					// let split = text.split(' ');
-					// console.log(split);
 					let invoiceRegex = /#[\d]+/gi;
 					let invoiceNum = invoiceRegex.exec(text);
 					let invoiceNumber = invoiceNum[0];
@@ -38,15 +32,6 @@ const invoiceImage = (req, res, next) => {
 				}
 			};
 			loadedImage();
-
-			//loadedImage();
-
-			// let stringImage = new String(loadedImage());
-			// console.log(stringImage);
-
-			// let stringImage = loadedImage.toString();
-			// let splitText = stringImage.split(' ');
-			// console.log(splitText);
 		});
 	}
 };
