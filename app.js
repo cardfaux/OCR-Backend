@@ -3,6 +3,8 @@ const path = require('path');
 const express = require('express');
 const mongoose = require('mongoose');
 
+const HttpError = require('./models/http-error');
+
 const invoiceRoutes = require('./routes/invoice-routes');
 
 const app = express();
