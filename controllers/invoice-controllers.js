@@ -16,7 +16,7 @@ const invoiceImage = async (req, res, next) => {
 	try {
 		results = fs.readFile(
 			`./uploads/images/${req.file.filename}`,
-			(err, data) => {
+			async (err, data) => {
 				if (err) return console.log('This Is Your Error', err);
 
 				let loadedImage = async () => {
@@ -32,10 +32,12 @@ const invoiceImage = async (req, res, next) => {
 					console.log(invoiceNumber);
 					await worker.terminate();
 
+					await Promise.all(invoiceNumber);
 					return invoiceNumber;
 				};
 
 				let test = loadedImage();
+				// Test Is A Pending Promise
 				return test;
 			}
 		);
